@@ -102,7 +102,7 @@ All ten are downregulated in tumour tissue, with log2 fold changes between −3.
 
 
 **Hierarchical clustering heatmap**
-![Heatmap] [Heat_Map] <img width="306" height="523" alt="Heat_Map" src="https://github.com/user-attachments/assets/78835fcb-a13d-4a69-b609-c959803010cc" />
+![Heatmap] <img width="306" height="523" alt="Heat_Map" src="https://github.com/user-attachments/assets/78835fcb-a13d-4a69-b609-c959803010cc" />
 
 ---
 
