@@ -92,14 +92,17 @@ All ten are downregulated in tumour tissue, with log2 fold changes between −3.
 ## Figures
 
 **Volcano plot**
-![Enhanced Volcano Plot] [Enhanced_Volcano_Plot]
-![Volcano Plot] [Volcano_Plot]
+![Enhanced Volcano Plot] <img width="800" height="600" alt="Enhanced_Volcano_Plot" src="https://github.com/user-attachments/assets/1dd4c0db-57f6-42a2-8108-7ed6e222faee" />
+
+![Volcano Plot] <img width="306" height="523" alt="Volcano_Plot" src="https://github.com/user-attachments/assets/abda24a6-5790-4b21-b389-4a2831fe8dc5" />
+
 
 **Principal component analysis**
-![PCA] [PCA_Plot]
+![PCA] <img width="534" height="523" alt="PCA_Plot" src="https://github.com/user-attachments/assets/28c835fd-37e9-44db-8239-856ea48077c7" />
+
 
 **Hierarchical clustering heatmap**
-![Heatmap] [Heat_Map]
+![Heatmap] [Heat_Map] <img width="306" height="523" alt="Heat_Map" src="https://github.com/user-attachments/assets/78835fcb-a13d-4a69-b609-c959803010cc" />
 
 ---
 
