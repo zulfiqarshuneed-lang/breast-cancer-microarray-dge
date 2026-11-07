@@ -1,106 +1,124 @@
-# Identification of Candidate Biomarkers Through Differential Gene Expression Analysis of Breast Cancer Using R and Bioconductor
+# Differential Gene Expression Analysis of Breast Cancer (GSE42568) in R
+
+Identification of transcripts differing between normal breast tissue and breast cancer samples, using R and Bioconductor.
+
+---
 
 ## Dataset
 
-This project used the publicly available breast cancer transcriptomic dataset **GSE42568** obtained from the NCBI Gene Expression Omnibus (GEO).
+| | |
+|---|---|
+| Repository | NCBI Gene Expression Omnibus (GEO) |
+| Accession | GSE42568 |
+| Species | *Homo sapiens* |
+| Condition | Breast cancer vs normal breast tissue |
+| Data type | Gene expression microarray |
+| Platform | Affymetrix Human Genome U133 Plus 2.0 Array |
+| Samples | 121 (104 breast tumour, 17 normal breast tissue) |
+| Note | Tumour biopsies taken before any tamoxifen or chemotherapy |
 
-- **Repository:** NCBI Gene Expression Omnibus (GEO)
-- **Accession:** GSE42568
-- **Species:** *Homo sapiens*
-- **Disease:** Breast Cancer
-- **Data Type:** Gene expression microarray
-- **Platform:** Affymetrix Human Genome U133 Plus 2.0 Array
+## Biological question
 
-The dataset contains transcriptomic profiles from normal breast tissue and breast cancer samples, enabling comparative differential gene expression analysis to identify genes associated with breast cancer progression.
+Which transcripts are differentially expressed between normal breast tissue and breast cancer samples?
 
-## Biological Question
+---
 
-Which genes are significantly differentially expressed between normal breast tissue and breast cancer samples, and what biological insights can be obtained from these transcriptomic alterations?
+## Methods
 
-This project aims to identify dysregulated transcripts associated with breast cancer and provide computational evidence for potential biomarkers and therapeutic targets.
+Standard Bioconductor differential expression workflow for microarray data.
 
-## Methodology
+```
+GSE42568 (GEO)
+    │
+    ▼
+Download expression + phenotype data (GEOquery)
+    │
+    ▼
+Define groups: normal vs tumour
+    │
+    ▼
+Build design matrix
+    │
+    ▼
+Linear model fit (limma)
+    │
+    ▼
+Empirical Bayes moderation (eBayes)
+    │
+    ▼
+Benjamini–Hochberg FDR correction
+    │
+    ▼
+Significant transcripts (FDR < 0.05)
+    │
+    ▼
+Visualisation: volcano plot, PCA, hierarchical clustering heatmap
+```
 
-The analysis was performed using R and Bioconductor packages following a standard transcriptomic differential expression workflow.
+**Packages:** GEOquery, limma, EnhancedVolcano, pheatmap, org.Hs.eg.db
 
-### Workflow
+*(edgeR and clusterProfiler were installed but not used in the final analysis.)*
 
-1. Downloaded the GSE42568 dataset using GEOquery.
-2. Extracted gene expression and phenotype information.
-3. Constructed the experimental design matrix for normal and breast cancer samples.
-4. Performed differential gene expression analysis using the limma package.
-5. Applied empirical Bayes moderation (eBayes) to improve statistical estimation.
-6. Corrected for multiple hypothesis testing using the Benjamini–Hochberg False Discovery Rate (FDR).
-7. Identified significantly differentially expressed transcripts.
-8. Visualized results using:
-   - Volcano Plot
-   - Principal Component Analysis (PCA)
-   - Hierarchical Clustering Heatmap
-9. Investigated highly dysregulated genes associated with breast cancer biology.
+---
 
-## Software and Packages
-
-The analysis was performed using R (Bioconductor) with the following packages:
-
-- GEOquery
-- limma
-- edgeR
-- EnhancedVolcano
-- pheatmap
-- clusterProfiler
-- org.Hs.eg.db
-
-Additional packages were used for visualization and statistical analysis.
-
-## Dataset Summary
+## Results
 
 | Metric | Value |
-|--------|------:|
-| Total transcripts analysed | **54,675** |
-| Significant transcripts (FDR < 0.05) | **16,803** |
-| Upregulated transcripts | **8,240** |
-| Downregulated transcripts | **8,563** |
+|---|---|
+| Total probes analysed | 54,675 |
+| Significant at FDR < 0.05 | 16,803 (30.7%) |
+| Upregulated | 8,240 |
+| Downregulated | 8,563 |
 
-The results indicate widespread transcriptomic alterations between normal breast tissue and breast cancer samples, highlighting extensive molecular dysregulation associated with tumor development.
+PCA separated tumour and normal samples along the first principal component, and hierarchical clustering grouped samples by condition.
 
-## Top Differentially Expressed Transcripts
+**Top 10 transcripts by adjusted p-value**
 
-| Rank | Transcript (Probe ID) | logFC | Adjusted p-value (FDR) |
-| ---: | --------------------- | ----: | ---------------------: |
-| 1 | 237351_at | -4.16 | 7.46 × 10⁻³⁸ |
-| 2 | 214505_s_at | -5.37 | 6.08 × 10⁻³⁷ |
-| 3 | 89977_at | -4.37 | 1.33 × 10⁻³⁶ |
-| 4 | 230595_at | -3.58 | 1.43 × 10⁻³⁶ |
-| 5 | 214582_at | -4.41 | 1.43 × 10⁻³⁶ |
-| 6 | 223764_x_at | -3.51 | 4.86 × 10⁻³⁶ |
-| 7 | 219059_s_at | -4.44 | 1.06 × 10⁻³⁵ |
-| 8 | 235670_at | -3.59 | 1.93 × 10⁻³⁵ |
-| 9 | 206930_at | -4.49 | 2.00 × 10⁻³⁵ |
-| 10 | 221295_at | -3.93 | 2.98 × 10⁻³⁵ |
+| Rank | Probe ID | logFC | Adjusted p (FDR) |
+|---|---|---|---|
+| 1 | 237351_at | −4.16 | 7.46 × 10⁻³⁸ |
+| 2 | 214505_s_at | −5.37 | 6.08 × 10⁻³⁷ |
+| 3 | 89977_at | −4.37 | 1.33 × 10⁻³⁶ |
+| 4 | 230595_at | −3.58 | 1.43 × 10⁻³⁶ |
+| 5 | 214582_at | −4.41 | 1.43 × 10⁻³⁶ |
+| 6 | 223764_x_at | −3.51 | 4.86 × 10⁻³⁶ |
+| 7 | 219059_s_at | −4.44 | 1.06 × 10⁻³⁵ |
+| 8 | 235670_at | −3.59 | 1.93 × 10⁻³⁵ |
+| 9 | 206930_at | −4.49 | 2.00 × 10⁻³⁵ |
+| 10 | 221295_at | −3.93 | 2.98 × 10⁻³⁵ |
 
-## Key Findings
-
-- Analysed 54,675 transcript probes from public breast cancer transcriptomic data.
-- Identified 16,803 significantly differentially expressed transcripts after false discovery rate correction.
-- Detected 8,240 upregulated and 8,563 downregulated transcripts in breast cancer samples.
-- Generated volcano plots, PCA visualizations, and clustered heatmaps to characterize transcriptomic differences.
-- Observed substantial molecular differences between normal breast tissue and breast cancer, supporting the role of transcriptomic profiling in identifying disease-associated genes and candidate biomarkers.
+All ten are downregulated in tumour tissue, with log2 fold changes between −3.5 and −5.4 (roughly 11- to 41-fold lower expression).
 
 ## Figures
 
-### Volcano Plot
+**Volcano plot**
+![Enhanced Volcano Plot] [Enhanced_Volcano_Plot]
+![Volcano Plot] [Volcano_Plot]
 
-![Enh Volcano Plot] [<img width="800" height="600" alt="Enhanced_Volcano_Plot" src="https://github.com/user-attachments/assets/9adf5604-08c4-4315-9b47-7e66712c8bf4" />]
-![Volcano Plot] [<img width="306" height="523" alt="Volcano_Plot" src="https://github.com/user-attachments/assets/6848fe35-9d8f-46e9-83fd-2344243c085c" />]
+**Principal component analysis**
+![PCA] [PCA_Plot]
+
+**Hierarchical clustering heatmap**
+![Heatmap] [Heat_Map]
 
 ---
 
-### Principal Component Analysis (PCA)
+## Interpretation and limitations
 
-![PCA] [<img width="534" height="523" alt="PCA_Plot" src="https://github.com/user-attachments/assets/8b862434-ab1b-4e3d-8057-8fad7fa57818" />]
+- **The significant list is too large to act on.** 16,803 of 54,675 probes (31%) passed FDR < 0.05. This reflects genuine widespread transcriptomic change between tumour and normal tissue, but it also reflects a filter on adjusted p-value alone, with no fold-change threshold and no removal of low-expression probes. A combined filter, such as FDR < 0.05 and |log2FC| > 1, would give a list that can actually be interpreted.
+- **Probes are not annotated.** Results are reported as Affymetrix probe IDs, not gene symbols. Until these are mapped, the output cannot be read biologically or compared with published breast cancer signatures.
+- **The dataset is unbalanced**, with 104 tumour samples against 17 normal samples. This limits power for the normal group and makes it more sensitive to individual outliers.
+- **No functional analysis** has been performed, so the results point to differences without indicating which pathways they affect.
+- **Single dataset, no validation.** These transcripts are candidates generated from one cohort; replication in an independent dataset would be needed before treating any of them as biomarkers.
 
----
+## Next steps
 
-### Heatmap of Differentially Expressed Transcripts
+- Annotate probes with gene symbols (org.Hs.eg.db) and collapse multiple probes per gene
+- Apply a fold-change threshold alongside FDR and report the reduced list
+- Run GO and KEGG enrichment (clusterProfiler) on the filtered set
+- Replicate the comparison in an independent RNA-seq breast cancer cohort
 
-![Heatmap] [<img width="306" height="523" alt="Heat_Map" src="https://github.com/user-attachments/assets/822d1aa2-6c9d-47db-aa99-cf8405edfa2b" />]
+## Author
+
+Shuneed Zulfiqar
+Biotechnology graduate | Bioinformatics | Computational biology | Cancer genomics
